@@ -6,39 +6,30 @@
 package tg.ip.net.dk.digit.ejb;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author HP
  */
 @Entity
-@Data@NoArgsConstructor@AllArgsConstructor
-@Table(name = "biens")
-public class Bien implements Serializable {
+@Getter@Setter@NoArgsConstructor@AllArgsConstructor
+@Table(name = "commentaires")
+public class Commentaire implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(name = "libelle", nullable = false)
-    private String libelle;
-    
-    @Column(name = "description", nullable = false)
-    private String description;
-    
-    @OneToMany(mappedBy = "bien", cascade = CascadeType.REMOVE)
-    private List<Publication> publications = new ArrayList<>();
+    @Column(length = Integer.MAX_VALUE)
+    private String contenu;
 }

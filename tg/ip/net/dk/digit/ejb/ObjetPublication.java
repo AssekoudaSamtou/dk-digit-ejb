@@ -6,39 +6,45 @@
 package tg.ip.net.dk.digit.ejb;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author HP
  */
 @Entity
+@Data@NoArgsConstructor@AllArgsConstructor
 @Table(name = "objet_publications")
-@Getter
 public class ObjetPublication implements Serializable{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Column(name = "libelle", nullable = false)
     private String libelle;
 
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "objetPublication", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Publication> publications = new ArrayList<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLibelle() {
-        return libelle;
-    }
-
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public void setPublications(List<Publication> publications) {
+        this.publications = publications;
+        publications.forEach((publication) -> {
+            publication.setObjetPublication(this);
+        });
     }
     
 }
